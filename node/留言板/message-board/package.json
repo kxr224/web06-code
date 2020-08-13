@@ -1,0 +1,17 @@
+{
+  "name": "message-board",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "cyrus",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "bootstrap": "^3.4.1",
+    "jquery": "^3.5.1",
+    "mysql": "^2.18.1"
+  }
+}

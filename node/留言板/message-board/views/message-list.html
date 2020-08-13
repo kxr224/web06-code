@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>留言板<small>天亮留言板</small></h1>
+        </div>
+        <a href="/publish-message.html">发布留言</a>
+        <ul class="list-group">
+            {{each messageList}}
+            <li class="list-group-item">
+                <a class="btn btn-primary" data-toggle="modal" href='#modal-id' onclick="openEdit({{$value}})">修改</a>
+
+                <a href="/delete?id={{$value.id}}">{{$value.content}}</a>
+                <span class="badge"> {{$value.name}} </span>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+
+
+    <div class="modal fade" id="modal-id">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改留言</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/update" method="POST" role="form">
+                        <input type="text" style="display: none;" id="id" name="id">
+                        <div class="form-group">
+                            <label for="name">名字</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="请输入名字">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">内容</label>
+                            <textarea name="content" id="content" class="form-control" rows="3" placeholder="请输入内容"
+                                required="required"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">表单修改</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="save()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEdit(message) {
+            console.log(id);
+            // 先获取dom元素
+            $('#id').val(message.id)
+            $('#name').val(message.name)
+            $('#content').val(message.content)
+        }
+
+        function save() {
+            $.ajax({
+                url: '/ajax/update',
+                type: 'post',
+                // contentType: 'application/x-www-form-urlencoded',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: $('#id').val(),
+                    name: $('#name').val(),
+                    content: $('#content').val()
+                }),
+                success(res) {
+                    if(res.success){
+                        // 刷新一下列表
+                        window.location.href = '/'
+                    }
+                },
+            })
+        }
+    </script>
+
+</body>
+
+</html>
