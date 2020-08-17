@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .box {
+            height: 300px;
+            background-color: hotpink;
+        }
+
+        .box1 {
+            height: 500px;
+            background-color: lightblue;
+        }
+
+        .box2 {
+            width: 300px;
+        }
+
+        .box3 {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <div :class="boxCls">
+            啦啦
+        </div>
+        <button @click="change">修改</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // 样式支持对象的写法，对象key就是样式的名字，对象的值是这个样式是否生效
+                boxCls: [{
+                    box: true,
+                    box1: false,
+                    box2: true
+                }, 'box3'],
+            },
+            methods: {
+                change() {
+                    this.boxCls[0].box = !this.boxCls[0].box;
+                    this.boxCls[0].box1 = !this.boxCls[0].box1
+                    let flag1 = true;
+                    let flag2 = false;
+                    let flag3 = true;
+                    // let val = flag1 ? 'box1' : flag2 ? flag3 ? 'box2' : 'box4' : 'box3'
+                    // console.log(val);
+                },
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件绑定</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id='app'>
+        <div >{{num}}</div>
+        <!-- v-on是事件绑定 ： 后面跟要绑定的事件 -->
+        <button v-on:click="add">给数字加1</button>
+        <button @click="add">给数字加1</button>
+    </div>
+    <script>
+    const vm = new Vue({
+        // 指定vue控制的界面元素
+        el: '#app',
+        // 界面所需的数据
+        data: {
+            num:4
+        },
+        // 这个vue实例所需要的方法
+        methods:{
+            add(){
+                console.log("执行了add的方法");
+                // 设置num
+                // this指向当前的实例
+                this.num += 1
+            }
+        }
+    })
+    </script>
+</body>
+</html>

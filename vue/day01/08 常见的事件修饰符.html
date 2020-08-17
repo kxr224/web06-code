@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .box {
+            height: 300px;
+            width: 500px;
+            background-color: lightblue;
+        }
+
+        .inner-box {
+            height: 200px;
+            width: 300px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <div class="box" @click="clickBox">
+            <div class="inner-box" v-on:click.stop="clickInnerBox"></div>
+        </div>
+        <a href="https://www.baidu.com" @click.prevent="clickA">跳转</a>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {},
+            methods:{
+                clickBox(){
+                    console.log("点击了外层的盒子");
+                },
+                clickInnerBox:function(){
+                    console.log("点击了内层的盒子");
+                },
+                clickA(){
+                    console.log("点击了a标签");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

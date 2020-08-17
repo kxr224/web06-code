@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .box {
+            height: 300px;
+            background-color: hotpink;
+        }
+
+        .box1 {
+            height: 500px;
+            background-color: lightblue;
+        }
+
+        .box2 {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <div :class="boxCls"></div>
+        <button @click="change">修改</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                boxCls: ['box', 'box2'],
+                flag: false
+            },
+            methods: {
+                change() {
+                    this.flag = !this.flag;
+                    this.boxCls = [this.getCls(), 'box2']
+                },
+                getCls(){
+                    return this.flag ? 'box' : 'box1'
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取值指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h3>前面的内容{{msg}}app</h3>
+        <div v-text="msg">测试啦啦啦</div>
+        {{richText}}
+        <div v-text="richText"></div>
+        <div v-html="richText"></div>
+        <!-- 指令和双花括号对应的内容都是表达式 -->
+        <div>{{(num1 + num2) >10 ? '大于10':'小于10'}}</div>
+        <div v-text="num1 + num2"></div>
+    </div> 
+
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:"天亮教育",
+                richText:`<h2>啦啦啦啦</h2>`,
+                num1:3,
+                num2:7
+            }
+        })
+    </script>
+</body>
+</html>

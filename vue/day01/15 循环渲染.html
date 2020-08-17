@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <ul>
+            <!-- 数组每一项（名字可以自己定义） 
+            in 固定的关键字
+            需要遍历的数组 -->
+            <li v-for="data in list">
+                {{data.name}} --- {{data.id}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                list:[{
+                    id:1,
+                    name:'vue课件'
+                },{
+                    id:2,
+                    name:'react课件'
+                },{
+                    id:3,
+                    name:'js课件'
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>

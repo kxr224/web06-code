@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初始vue</title>
+    <!-- 引入框架 -->
+    <!-- 1. 引入vue的js文件 -->
+    <!-- 引入这个js脚本之后，就会有一个Vue的全局变量，通过变量，就可以创建vue的实例 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    
+    <!-- 相当于view层 -->
+    <!-- 在界面上预留vue渲染的区域 -->
+    <div id="app">
+        <!-- 引用在vue实例中定义好的数据 -->
+        {{msg}}
+    </div>
+
+    <script>
+        // 3. vue实例的创建
+        var vm = new Vue({
+            //el属性就决定，vue要控制的界面元素
+            el:'#app',
+            // 这个属性就是界面的数据
+            data:{
+                msg:"hello world"
+            }
+        })
+
+    </script>
+</body>
+</html>

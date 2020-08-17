@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div :style="{backgroundColor:flag?'lightblue':'lightgreen',height:'300px'}"></div>
+        <button @click="change">修改</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                flag:false 
+            },
+            methods: {
+                change(){
+                    // console.log(this.boxStyle['background-color']);
+                    // console.log(this.boxStyle[1]);
+                    // this.boxStyle['background-color'] = 'hotpink';
+                    // this.boxStyles.push(this.boxStyle)
+                    this.flag = !this.flag
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

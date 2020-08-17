@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <ul id="list">
+            <!-- 数组每一项（名字可以自己定义） 
+            in 固定的关键字
+            需要遍历的数组 -->
+            <!-- '' null undefined 0 -->
+            <!-- 
+                循环渲染的时候需要给元素设置key值：
+                    这个元素和数组的数据做了个绑定。
+                    为了提高列表重拍的效率.
+                    如果新渲染的key在旧列表中存在，vue认为它是需要做移位操作，而不是删除和插入操作。
+             -->
+            <li :style="{backgroundColor:index%2?'lightblue':'hotpink'}" v-for="(item,index) in list" :key="item.id">
+                {{(index+1) % 2 == 0?item.name:item.id}}
+            </li>
+        </ul>
+        <button @click="reverse">逆序</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    id: 1,
+                    name: 'vue课件'
+                }, {
+                    id: 2,
+                    name: 'react课件'
+                }, {
+                    id: 3,
+                    name: 'js课件'
+                }]
+            },
+            methods: {
+                reverse() {
+                    this.list = this.list.reverse()
+                    // 假如没有vue
+                    // document.getElementById('list').innerHTML = ""
+                    // for (let item of list) {
+                    //     document.getElementById('list').innerHTML += `<li> ${item.name} </li>`
+                    // }
+
+                    // 每次渲染都执行了DOM的删除和插入操作， 而DOM的删除和插入操作是很费资源
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div v-if="age < 18">
+            未成年
+        </div>
+        <div v-else-if="age >= 18 && age < 30">
+            青年
+        </div>
+        <div v-else-if="age >= 30 && age < 50">
+            壮年
+        </div>
+        <div v-else>
+            老年
+        </div>
+        <button @click="setAge(17)">少年</button>
+        <button @click="setAge(22)">青年</button>
+        <button @click="setAge(35)">壮年</button>
+        <button @click="setAge(60)">老了</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                age: 16
+            },
+            methods: {
+                setAge(age){
+                    this.age = age
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

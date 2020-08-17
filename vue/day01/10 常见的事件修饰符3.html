@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .big-box{
+            height: 400px;
+            width: 700px;
+            background-color: hotpink;
+        }
+
+        .box {
+            height: 300px;
+            width: 500px;
+            background-color: lightblue;
+        }
+
+        .inner-box {
+            height: 200px;
+            width: 300px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <div class="big-box" @click.self="clickBigBox">
+            <!-- 只有事件源是他本身的时候才会执行 -->
+            <div class="box" @click="clickBox">
+                <div class="inner-box" v-on:click="clickInnerBox"></div>
+            </div>
+        </div>
+
+        <button @click.once="initData">初始化数据</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {},
+            methods:{
+                initData(){
+                    console.log("初始化数据");
+                },
+                clickBox(){
+                    console.log("点击了外层的盒子");
+                },
+                clickInnerBox:function(){
+                    console.log("点击了内层的盒子");
+                },
+                clickBigBox(){
+                    console.log("点击了最最最外层的盒子");
+                },
+                clickA(){
+                    console.log("点击了a标签");
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
