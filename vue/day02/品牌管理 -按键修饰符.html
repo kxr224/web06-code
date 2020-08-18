@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>品牌管理</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div class="container" style="padding-top: 30px;">
+            <!-- 头部 -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">品牌管理</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="id">id：</label>
+                            <input type="text" class="form-control" id="id" placeholder="请输入id" v-model="id" @keyup.f2='add'>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">name：</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入名字" v-model="name" @keyup.f2='add'>
+                        </div>
+                        <!-- warning danger primary default info -->
+                        <button type="button" class="btn btn-primary" @click="add">提交</button>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="keywords" placeholder="请输入搜索关键字"
+                                v-model="keywords" @input="handleInput">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 头部 -->
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>ctime</th>
+                        <th>ctime2</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr v-for="(item,index) in list.filter(item=>item.name.includes(keywords))" :key="item.id"> -->
+                    <tr v-for="(item,index) in  getSearchList()" :key="item.id">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name | nameFilter | nameFilter}}</td>
+                        <!-- 通过管道符使用过滤器 -->
+                        <td>{{item.ctime | date('YYYY/MM/DD hh:mm')}}</td>
+                        <td>{{item.ctime | date('MM-DD hh:mm:ss')}}</td>
+                        <td><a @click.prevent="del(index,item)">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- 表格 -->
+
+        </div>
+    </div>
+
+
+    <div id="app2">
+        <div>{{name | nameFilter}}</div>
+        <div>{{time | date('YYYY-MM-DD')}}</div>
+    </div>
+    <script>
+        // 配置自定义的键盘码
+        Vue.config.keyCodes.f2=113
+
+
+        // 过滤器的概念： 可以对现有的数据进行处理，展示处理后的数据。 常被用于日期的个是胡
+
+        // 注册全局的过滤器
+        // 第一参数，过滤器的名字
+        // 第二个参数，函数
+        // 第一个参数，是要处理的值
+        // 这个函数返回的值是最终显示的值
+        Vue.filter('date', function (data,format) {
+            // 处理日期，把最终想显示的格式返回
+            console.log(format);
+            // 格式化日期
+            // 2020-08-18 14:50:03
+            // 获取年
+            const year = data.getFullYear();
+            // 获取月
+            // const month = (data.getMonth() + 1) < 10 ? '0'+(data.getMonth() + 1):data.getMonth() + 1;
+            // const month = (data.getMonth() + 1).toString().padEnd(4,'0')
+            const month = (data.getMonth() + 1).toString().padStart(2,'0')
+            // 获取日
+            const day = data.getDate().toString().padStart(2,'0')
+            // 获取时
+            const hour = data.getHours().toString().padStart(2,'0')
+            // 获取分钟
+            const min = data.getMinutes().toString().padStart(2,'0')
+            // 获取秒
+            const sec = data.getSeconds().toString().padStart(2,'0')
+            // 最终显示的值
+            // if(format == 'YYYY/MM/DD hh:mm'){
+            //     return year + '/' + month + '/' + day + ' ' + hour + ':' + min 
+            // }
+            // return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec
+            return format.replace('YYYY',year)
+                        .replace('MM',month)
+                        .replace('DD',day)
+                        .replace('hh',hour)
+                        .replace('mm',min)
+                        .replace('ss',sec)
+        })
+
+        // 年-月-日 时：分：秒
+        // 月/日 时：分
+        // YYYY/MM/DD hh:mm:ss
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // id输入框
+                id: '',
+                // name输入框
+                name: '',
+                // 搜素关键字的输入框
+                keywords: '',
+                list: [{
+                    id: 1,
+                    name: '宝马',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: '奔驰',
+                    ctime: new Date()
+                }],
+                // // 搜索后的数组
+                // searchList: [{
+                //     id: 1,
+                //     name: '宝马',
+                //     ctime: new Date()
+                // }, {
+                //     id: 2,
+                //     name: '奔驰',
+                //     ctime: new Date()
+                // }]
+            },
+            methods: {
+                getSearchList() {
+
+                    return this.list.filter(item => item.name.includes(this.keywords))
+                },
+                handleInput() {
+                    // console.log(this.keywords);
+                    // 源数据不能改变
+                    // this.searchList = this.list.filter(item=>item.name.includes(this.keywords))
+                },
+                add() {
+
+                    // 在提交之前，应该先进行表单校验
+                    if (!this.id) {
+                        alert("请填写id")
+                        return;
+                    }
+
+                    if (!this.name) {
+                        alert("请填写name")
+                        return;
+                    }
+
+                    // 校验id必须是唯一的，也就是说id不能重复
+                    // 遍历
+                    // let flag = false
+                    // this.list.forEach(item =>{
+                    //     if(item.id == this.id){
+                    //         alert("id重复")
+                    //         flag = true
+                    //     }
+                    //     return 
+                    // })
+                    // if(flag) return;
+
+                    // for(let item of this.list){
+                    //     if(item.id == this.id){
+                    //         alert('id重复')
+                    //         return 
+                    //     }
+                    // }
+
+                    if (this.list.some(item => item.id == this.id)) {
+                        alert('id重复')
+                        return
+                    }
+
+                    // 添加数据
+                    this.list.push({
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    })
+                },
+                del(index, id) {
+                    // 怎么删除数据
+                    // 知道删除谁
+                    // 知道点击的那一项是谁
+                    console.log(index);
+                    this.list.splice(index, 1)
+                }
+            },
+
+            // filters
+            // 定义私有过滤器的
+            filters:{
+                // 写的是函数
+                nameFilter(data){
+                    return '《'+data+"》"
+                }
+            }
+        })
+    
+    
+        const vm2 = new Vue({
+            el:'#app2',
+            data:{
+                name:'实例2的名字',
+                time:new Date()
+            }
+        })
+    </script>
+</body>
+
+</html>

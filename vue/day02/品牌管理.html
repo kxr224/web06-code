@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>品牌管理</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div class="container" style="padding-top: 30px;">
+            <!-- 头部 -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">品牌管理</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="id">id：</label>
+                            <input type="text" class="form-control" id="id" placeholder="请输入id" v-model="id">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">name：</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入名字" v-model="name">
+                        </div>
+                        <!-- warning danger primary default info -->
+                        <button type="button" class="btn btn-primary" @click="add">提交</button>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="keywords" placeholder="请输入搜索关键字"
+                                v-model="keywords" @input="handleInput">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 头部 -->
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>ctime</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr v-for="(item,index) in list.filter(item=>item.name.includes(keywords))" :key="item.id"> -->
+                    <tr v-for="(item,index) in  getSearchList()" :key="item.id">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.ctime}}</td>
+                        <td><a @click.prevent="del(index,item)">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- 表格 -->
+
+        </div>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // id输入框
+                id: '',
+                // name输入框
+                name: '',
+                // 搜素关键字的输入框
+                keywords: '',
+                list: [{
+                    id: 1,
+                    name: '宝马',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: '奔驰',
+                    ctime: new Date()
+                }],
+                // // 搜索后的数组
+                // searchList: [{
+                //     id: 1,
+                //     name: '宝马',
+                //     ctime: new Date()
+                // }, {
+                //     id: 2,
+                //     name: '奔驰',
+                //     ctime: new Date()
+                // }]
+            },
+            methods: {
+                getSearchList(){
+
+                    return this.list.filter(item=>item.name.includes(this.keywords))
+                },
+                handleInput(){
+                    // console.log(this.keywords);
+                    // 源数据不能改变
+                    // this.searchList = this.list.filter(item=>item.name.includes(this.keywords))
+                },
+                add() {
+
+                    // 在提交之前，应该先进行表单校验
+                    if(!this.id){
+                        alert("请填写id")
+                        return;
+                    }
+
+                    if(!this.name){
+                        alert("请填写name")
+                        return;
+                    }
+
+                    // 校验id必须是唯一的，也就是说id不能重复
+                    // 遍历
+                    // let flag = false
+                    // this.list.forEach(item =>{
+                    //     if(item.id == this.id){
+                    //         alert("id重复")
+                    //         flag = true
+                    //     }
+                    //     return 
+                    // })
+                    // if(flag) return;
+
+                    // for(let item of this.list){
+                    //     if(item.id == this.id){
+                    //         alert('id重复')
+                    //         return 
+                    //     }
+                    // }
+
+                    if(this.list.some(item=>item.id==this.id)){
+                        alert('id重复')
+                        return
+                    }
+
+                    // 添加数据
+                    this.list.push({
+                        id: this.id,
+                        name:this.name,
+                        ctime:new Date()
+                    })
+                },
+                del(index,id){
+                    // 怎么删除数据
+                    // 知道删除谁
+                    // 知道点击的那一项是谁
+                    console.log(index);
+                    this.list.splice(index,1)
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
